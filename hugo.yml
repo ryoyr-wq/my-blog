@@ -1,4 +1,4 @@
-baseURL: "https://ryoyryoyr.com/"
+baseURL: https://ryoyryoyr.com/
 title: ExampleSite
 pagination:
   pagerSize: 5
