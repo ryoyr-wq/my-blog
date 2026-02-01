@@ -50,15 +50,11 @@ input,
 select,
 textarea,
 .pagination,
-.breadcrumbs {
-  font-family:
-    inherit;
-}
-
+.breadcrumbs,
 .header
 {
   font-family:
-    "TheStrongGamer";
+    "Shikakufuto";
 }
 
 /* 記事一覧カード（ホーム / Posts） */
