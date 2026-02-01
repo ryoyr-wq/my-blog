@@ -1,8 +1,13 @@
 baseURL: https://ryoyryoyr.com/
-title: ExampleSite
+title: ryoyr
 pagination:
   pagerSize: 5
 theme: PaperMod
+
+# 言語設定
+languageCode: ja
+defaultContentLanguage: ja
+hasCJKLanguage: true
 
 enableRobotsTXT: true
 buildDrafts: false
@@ -18,26 +23,26 @@ params:
   title: ExampleSite
   description: "ExampleSite description"
   keywords: [Blog, Portfolio, PaperMod]
-  author: Me
+  # author: ryoyr
   # author: ["Me", "You"] # multiple authors
   images: ["<link or path of image for opengraph, twitter-cards>"]
-  DateFormat: "January 2, 2006"
+  DateFormat: "2006/01/02"
   defaultTheme: auto # dark, light
   disableThemeToggle: false
 
-  ShowReadingTime: true
+  ShowReadingTime: false
   ShowShareButtons: true
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: false
-  ShowWordCount: true
+  ShowWordCount: false
   ShowRssButtonInSectionTermList: true
   UseHugoToc: true
   disableSpecial1stPost: false
   disableScrollToTop: false
   comments: false
   hidemeta: false
-  hideSummary: false
+  hideSummary: true
   showtoc: false
   tocopen: false
 
@@ -52,7 +57,7 @@ params:
 
   label:
     text: "Home"
-    icon: /apple-touch-icon.png
+    # icon: favicon.png
     iconHeight: 35
 
   # profile-mode
@@ -72,7 +77,7 @@ params:
 
   # home-info mode
   homeInfoParams:
-    Title: "Hi there \U0001F44B"
+    Title: "Hello there \U0001F44B"
     Content: Welcome to my blog
 
   socialIcons:
@@ -115,17 +120,17 @@ params:
 menu:
   main:
     - identifier: categories
-      name: categories
+      name: カテゴリ
       url: /categories/
       weight: 10
     - identifier: tags
-      name: tags
+      name: タグ
       url: /tags/
       weight: 20
-    - identifier: example
-      name: example.org
-      url: https://example.org
-      weight: 30
+    #- identifier: example
+    #  name: example.org
+    #  url: https://example.org
+    #  weight: 30
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
 markup:

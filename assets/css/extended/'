@@ -1,0 +1,55 @@
+/* ========== PaperMod 全体フォント（Meiryo最優先） ========== */
+body {
+  font-family:
+    "Meiryo",
+    "Yu Gothic",
+    "Hiragino Kaku Gothic ProN",
+    "Noto Sans JP",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+
+/* UI・ナビ・ボタン */
+.header,
+.nav,
+.menu,
+.profile,
+.footer,
+button,
+input,
+select,
+textarea,
+.pagination,
+.breadcrumbs {
+  font-family:
+    inherit;
+}
+
+/* 記事一覧カード（ホーム / Posts） */
+.post-entry,
+.post-entry .entry-header h2,
+.post-entry .entry-content {
+  font-family:
+    inherit;
+}
+
+/* 記事ページ */
+.post-single,
+.post-title,
+.entry-header h1,
+.post-content {
+  font-family:
+    inherit;
+}
+
+/* メタ情報（日付・タグ・カテゴリ） */
+.post-meta,
+.entry-footer,
+.post-tags,
+.post-categories {
+  font-family:
+    inherit;
+}
+
