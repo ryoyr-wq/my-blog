@@ -11,13 +11,13 @@
 # ordered by weight from lowest to highest.
 
 [[main]]
-  name = "Blog"
+  name = "記事"
   pageRef = "posts"
   weight = 10
 
-[[main]]
-  name = "Parent"
-  weight = 20
+#[[main]]
+#  name = "Parent"
+#  weight = 20
 
 #[[main]]
 #  name = "example sub-menu 1"
@@ -43,12 +43,12 @@
 #  weight = 20
 
 [[main]]
-  name = "Categories"
+  name = "カテゴリー"
   pageRef = "categories"
   weight = 20
 
 [[main]]
-  name = "Tags"
+  name = "タグ"
   pageRef = "tags"
   weight = 30
 
