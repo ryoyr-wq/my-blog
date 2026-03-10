@@ -1,0 +1,12 @@
+/* 検索・ダークモード切替ボタンなどのホバー時の色 */
+a:hover,
+a:focus,
+.cursor-pointer:hover svg,
+button:hover svg,
+.group:hover svg {
+  text-decoration: none !important; /* 下のバーを消去 */
+  fill: #4d53e8 !important;   /* アイコンの中塗りの色 */
+  stroke: #4d53e8 !important; /* アイコンの輪郭の色 */
+  color: #4d53e8 !important;  /* テキストが含まれる場合の色 */
+  transition: all 0.2s ease;   /* 動きを滑らかにする */
+}
