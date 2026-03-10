@@ -2,7 +2,7 @@ disabled = false
 languageCode = "ja"
 languageName = "Japanese"
 weight = 1
-title = "ブログ"
+title = "AI Dialogue"
 
 [params]
   displayName = "EN"
@@ -18,8 +18,8 @@ title = "ブログ"
   name = "ryoyr"
 #   email = "youremail@example.com"
   image = "img/risu.png"
-#   imageQuality = 96
 #   headline = "I'm only human"
+#   imageQuality = 96
 #   bio = "A little bit about you"
 #   links = [
 #     { email = "mailto:hello@your_domain.com" },
