@@ -1,0 +1,17 @@
+{{ $id := printf "cube-%d" (now.UnixNano) }}
+<div id="{{ $id }}" class="rotating-cube-container" style="width: 100%; min-height: 300px; margin: 2rem auto;"></div>
+
+{{ $js := resources.Get "js/rotating-cube.js" | fingerprint }}
+<script src="{{ $js.RelPermalink }}" defer></script>
+
+<script>
+  window.addEventListener('load', function() {
+    if (typeof window.initCube === 'function') {
+      window.initCube(
+        "{{ $id }}", 
+        {{ .Get "scale" | default 1.0 }}, 
+        "{{ .Get "type" | default "torus" }}"
+      );
+    }
+  });
+</script>

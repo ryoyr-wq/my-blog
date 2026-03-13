@@ -575,6 +575,37 @@
     integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
   
   
+    <div id="floating-3d-container" style="
+    position: fixed;
+    bottom: 0px;
+    right: 30px;
+    width: 120px;
+    height: 120px;
+    z-index: 9999;
+    pointer-events: none; /* クリックを下の要素に通す（邪魔にならないように） */
+    opacity: 0.6;
+    transition: opacity 0.3s;
+"></div>
+
+
+<script src="/js/rotating-cube.56445b520b80032ee5aa11c8358def1d0b9e34b5aecec6e1af4efbebd36e0087.js" defer></script>
+
+<script>
+  window.addEventListener('load', function() {
+    if (typeof window.initCube === 'function') {
+      
+      window.initCube("floating-3d-container", 0.4, "icosahedron");
+      
+      
+      const container = document.getElementById('floating-3d-container');
+      container.parentElement.addEventListener('mouseenter', () => container.style.opacity = "1");
+      container.parentElement.addEventListener('mouseleave', () => container.style.opacity = "0.6");
+    }
+  });
+</script>
+
+
+  
 </footer>
 <div
   id="search-wrapper"

@@ -1,0 +1,28 @@
+<div id="floating-3d-container" style="
+    position: fixed;
+    bottom: 0px;
+    right: 30px;
+    width: 120px;
+    height: 120px;
+    z-index: 9999;
+    pointer-events: none; /* クリックを下の要素に通す（邪魔にならないように） */
+    opacity: 0.6;
+    transition: opacity 0.3s;
+"></div>
+
+{{ $js := resources.Get "js/rotating-cube.js" | fingerprint }}
+<script src="{{ $js.RelPermalink }}" defer></script>
+
+<script>
+  window.addEventListener('load', function() {
+    if (typeof window.initCube === 'function') {
+      // 画面端なので少し小さめ (scale=0.4) で、正二十面体を表示
+      window.initCube("floating-3d-container", 0.4, "icosahedron");
+      
+      // マウスを乗せた時だけクッキリさせる演出
+      const container = document.getElementById('floating-3d-container');
+      container.parentElement.addEventListener('mouseenter', () => container.style.opacity = "1");
+      container.parentElement.addEventListener('mouseleave', () => container.style.opacity = "0.6");
+    }
+  });
+</script>
