@@ -1,0 +1,4 @@
+---
+title: "カテゴリー"
+layout: "list"
+---

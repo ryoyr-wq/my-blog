@@ -1,0 +1,23 @@
+# i18n/ja.yaml
+
+global:
+  language: "JA"
+
+taxonomy:
+  categories: "カテゴリー"
+  tags: "タグ"
+  series: "シリーズ"
+  authors: "著者"
+
+list:
+  title_categories: "カテゴリー"
+  title_tags: "タグ"
+  title_series: "シリーズ"
+  title_authors: "著者"
+
+breadcrumb:
+  home: "ホーム"
+  categories: "カテゴリー"
+  tags: "タグ"
+  series: "シリーズ"
+  authors: "著者"

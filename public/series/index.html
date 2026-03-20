@@ -1,6 +1,6 @@
 <!doctype html>
 <html
-  lang="en"
+  lang="ja"
   dir="ltr"
   class="scroll-smooth"
   data-default-appearance="light"
@@ -15,8 +15,8 @@
 
   
   
-    <title>Series &middot; AI Dialogue</title>
-    <meta name="title" content="Series &middot; AI Dialogue">
+    <title>Series &middot; ryoyr.log</title>
+    <meta name="title" content="Series &middot; ryoyr.log">
   
 
   
@@ -27,7 +27,7 @@
   <link rel="canonical" href="http://localhost:1313/series/">
   
     
-      <link rel="alternate" type="application/rss+xml" href="/series/index.xml" title="AI Dialogue" />
+      <link rel="alternate" type="application/rss+xml" href="/series/index.xml" title="ryoyr.log" />
   
 
   
@@ -38,7 +38,7 @@
 
   
   <meta property="og:url" content="http://localhost:1313/series/">
-  <meta property="og:site_name" content="AI Dialogue">
+  <meta property="og:site_name" content="ryoyr.log">
   <meta property="og:title" content="Series">
   <meta property="og:locale" content="ja">
   <meta property="og:type" content="website">
@@ -270,7 +270,7 @@
   
   
     <a href="/" class="text-base font-medium truncate min-w-0 shrink">
-      AI Dialogue
+      ryoyr.log
     </a>
   
   <div class="flex items-center ms-auto">
@@ -285,7 +285,7 @@
       
       class="flex items-center bf-icon-color-hover"
       aria-label="記事"
-      title="Posts">
+      title="記事">
       
       
         <span class="text-base font-medium break-normal">
@@ -303,7 +303,7 @@
       
       class="flex items-center bf-icon-color-hover"
       aria-label="カテゴリー"
-      title="Categories">
+      title="カテゴリー">
       
       
         <span class="text-base font-medium break-normal">
@@ -321,7 +321,7 @@
       
       class="flex items-center bf-icon-color-hover"
       aria-label="タグ"
-      title="Tags">
+      title="タグ">
       
       
         <span class="text-base font-medium break-normal">
@@ -432,7 +432,7 @@
         
         class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
         
-        <span title="Posts" class="text-2xl font-bold tracking-tight">
+        <span title="記事" class="text-2xl font-bold tracking-tight">
           記事
         </span>
         
@@ -449,7 +449,7 @@
         
         class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
         
-        <span title="Categories" class="text-2xl font-bold tracking-tight">
+        <span title="カテゴリー" class="text-2xl font-bold tracking-tight">
           カテゴリー
         </span>
         
@@ -466,7 +466,7 @@
         
         class="flex items-center gap-4 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
         
-        <span title="Tags" class="text-2xl font-bold tracking-tight">
+        <span title="タグ" class="text-2xl font-bold tracking-tight">
           タグ
         </span>
         
@@ -615,6 +615,37 @@
     src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js"
     integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
   
+  
+    <div id="floating-3d-container" style="
+    position: fixed;
+    bottom: 0px;
+    right: 30px;
+    width: 120px;
+    height: 120px;
+    z-index: 9999;
+    pointer-events: none; /* クリックを下の要素に通す（邪魔にならないように） */
+    opacity: 0.6;
+    transition: opacity 0.3s;
+"></div>
+
+
+<script src="/js/rotating-cube.56445b520b80032ee5aa11c8358def1d0b9e34b5aecec6e1af4efbebd36e0087.js" defer></script>
+
+<script>
+  window.addEventListener('load', function() {
+    if (typeof window.initCube === 'function') {
+      
+      window.initCube("floating-3d-container", 0.4, "icosahedron");
+      
+      
+      const container = document.getElementById('floating-3d-container');
+      container.parentElement.addEventListener('mouseenter', () => container.style.opacity = "1");
+      container.parentElement.addEventListener('mouseleave', () => container.style.opacity = "0.6");
+    }
+  });
+</script>
+
+
   
 </footer>
 <div

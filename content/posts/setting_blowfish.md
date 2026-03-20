@@ -3,6 +3,8 @@ title: "blowfishの設定で詰まったら"
 date: 2026-02-05T23:26:01+09:00
 toc: true
 draft: false
+categories: ["技術"]
+tags: ["Hugo", "Blowfish", "Web開発"]
 ---
 
 ## favicon

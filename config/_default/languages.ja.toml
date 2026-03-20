@@ -2,13 +2,25 @@ disabled = false
 languageCode = "ja"
 languageName = "Japanese"
 weight = 1
-title = "AI Dialogue"
+title = "ryoyr.log"
 
 [params]
-  displayName = "EN"
-  isoCode = "en"
+  displayName = "JA"
+  isoCode = "ja"
   rtl = false
   dateFormat = "2006/01/02"
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  author = "authors"
+  series = "series"
+
+[params.taxonomy]
+  title_categories = "カテゴリー"
+  title_tags = "タグ"
+  title_series = "シリーズ"
+  title_authors = "著者"
   # logo = "img/logo.png"
   # secondaryLogo = "img/secondary-logo.png"
   # description = "My awesome website"
