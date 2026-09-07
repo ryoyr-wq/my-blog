@@ -1,0 +1,36 @@
+<header class="site-header print:hidden">
+  <a class="site-wordmark" href="{{ "" | relLangURL }}" aria-label="{{ .Site.Title }} home">{{ .Site.Title }}</a>
+
+  <nav class="site-nav" aria-label="Main navigation">
+    {{ range .Site.Menus.main }}
+      <a href="{{ .URL }}" class="{{ if $.IsMenuCurrent "main" . }}is-current{{ end }}"{{ if or (strings.HasPrefix .URL "http:") (strings.HasPrefix .URL "https:") }} target="_blank" rel="noopener"{{ end }}>{{ .Name | markdownify }}</a>
+    {{ end }}
+  </nav>
+
+  <div class="site-tools">
+    {{ if .Site.Params.enableSearch | default false }}
+      <button id="search-button" class="site-tool hidden md:inline-flex" type="button" aria-label="検索を開く" title="検索">
+        {{ partial "icon.html" "search" }}
+      </button>
+      <button id="search-button-mobile" class="site-tool md:hidden" type="button" aria-label="検索を開く" title="検索">
+        {{ partial "icon.html" "search" }}
+      </button>
+    {{ end }}
+    {{ if .Site.Params.footer.showAppearanceSwitcher | default false }}
+      <button id="appearance-switcher" class="site-tool hidden md:inline-flex" type="button" aria-label="表示テーマを切り替える" title="表示テーマを切り替える">
+        <span class="dark:hidden">{{ partial "icon.html" "moon" }}</span>
+        <span class="hidden dark:inline">{{ partial "icon.html" "sun" }}</span>
+      </button>
+      <button id="appearance-switcher-mobile" class="site-tool md:hidden" type="button" aria-label="表示テーマを切り替える" title="表示テーマを切り替える">
+        <span class="dark:hidden">{{ partial "icon.html" "moon" }}</span>
+        <span class="hidden dark:inline">{{ partial "icon.html" "sun" }}</span>
+      </button>
+    {{ end }}
+    <details class="site-menu md:hidden">
+      <summary aria-label="メニューを開く">{{ partial "icon.html" "bars" }}</summary>
+      <nav aria-label="Mobile navigation">
+        {{ range .Site.Menus.main }}<a href="{{ .URL }}">{{ .Name | markdownify }}</a>{{ end }}
+      </nav>
+    </details>
+  </div>
+</header>

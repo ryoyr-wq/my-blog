@@ -10,14 +10,11 @@
     transition: opacity 0.3s;
 "></div>
 
-{{ $js := resources.Get "js/rotating-cube.js" | fingerprint }}
-<script src="{{ $js.RelPermalink }}" defer></script>
-
 <script>
   window.addEventListener('load', function() {
     if (typeof window.initCube === 'function') {
-      // 画面端なので少し小さめ (scale=0.4) で、正二十面体を表示
-      window.initCube("floating-3d-container", 0.4, "icosahedron");
+      // Heroと同じCubeを、画面端ではさらに控えめに表示
+      window.initCube("floating-3d-container", 0.34, "rubiks");
       
       // マウスを乗せた時だけクッキリさせる演出
       const container = document.getElementById('floating-3d-container');

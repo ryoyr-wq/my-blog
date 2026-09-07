@@ -1,0 +1,2 @@
+{{ $js := resources.Get "js/rotating-cube.js" | fingerprint }}
+<script src="{{ $js.RelPermalink }}" defer></script>

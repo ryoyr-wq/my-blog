@@ -1,0 +1,14 @@
+<article class="article-link--simple editorial-entry">
+  <div class="entry-stamp">
+    <span class="log-number">{{ partial "log-number.html" . }}</span>
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>
+  </div>
+  <div class="editorial-entry__body">
+    <h2><a href="{{ with .Params.externalUrl }}{{ . }}{{ else }}{{ .RelPermalink }}{{ end }}"{{ with .Params.externalUrl }} target="_blank" rel="external"{{ end }}>{{ .Title | emojify }}{{ with .Params.externalUrl }} <span aria-hidden="true">↗</span>{{ end }}</a></h2>
+    {{ with .Summary }}<p>{{ . | plainify | truncate 130 }}</p>{{ end }}
+    <div class="entry-terms">
+      {{ range .GetTerms "categories" }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}
+      {{ range first 2 (.GetTerms "tags") }}<a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a>{{ end }}
+    </div>
+  </div>
+</article>

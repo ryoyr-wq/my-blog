@@ -1,0 +1,42 @@
+<article class="lab-home">
+  <header class="lab-hero">
+    <div class="lab-intro">
+      <p class="eyebrow"><span></span> PERSONAL LAB NOTEBOOK</p>
+      <h1>ryoyr<span>.</span>log</h1>
+      <p class="lab-lede">Research / Engineering / Things I find interesting.</p>
+      <p class="lab-description">人間，AI，インターフェース，道具，<br>その他気になったものについて書いています．</p>
+      <a class="lab-index-link" href="{{ "posts/" | relLangURL }}">すべての記事を見る <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="lab-object-wrap" aria-hidden="true">
+      <div id="hero-geometry" class="lab-object"></div>
+      <p>OBSERVATION / 001</p>
+    </div>
+  </header>
+
+  <section class="latest-logs" aria-labelledby="latest-logs-title">
+    <div class="section-heading">
+      <p class="eyebrow"><span></span> FIELD NOTES</p>
+      <h2 id="latest-logs-title">Latest logs</h2>
+    </div>
+    <div class="editorial-list">
+      {{ range first (.Site.Params.homepage.showRecentItems | default 5) (where .Site.RegularPages "Type" "in" .Site.Params.mainSections | default .Site.RegularPages) }}
+        <article class="log-entry">
+          <div class="entry-stamp">
+            <span class="log-number">{{ partial "log-number.html" . }}</span>
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>
+          </div>
+          <div>
+            <h3><a href="{{ .RelPermalink }}">{{ .Title | emojify }}</a></h3>
+            {{ with .Summary }}<p>{{ . | plainify | truncate 105 }}</p>{{ end }}
+            <div class="log-terms">{{ range first 1 (.GetTerms "categories") }}{{ .LinkTitle }}{{ end }}{{ with .GetTerms "tags" }}{{ if gt (len .) 0 }} <span>·</span> {{ (index . 0).LinkTitle }}{{ end }}{{ end }}</div>
+          </div>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+</article>
+<script>
+  window.addEventListener('load', function () {
+    if (typeof window.initCube === 'function') window.initCube('hero-geometry', 0.84, 'rubiks')
+  })
+</script>

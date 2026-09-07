@@ -1,0 +1,7 @@
+{{- $page := . -}}
+{{- $pages := where $page.Site.RegularPages "Section" "posts" -}}
+{{- range $index, $item := $pages.ByDate -}}
+  {{- if eq $item.RelPermalink $page.RelPermalink -}}
+    {{- printf "LOG / %03d" (add $index 1) -}}
+  {{- end -}}
+{{- end -}}

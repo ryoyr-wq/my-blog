@@ -1,147 +1,261 @@
-// assets/js/rotating-cube.js
-(function() {
-  console.log("3D Wireframe Engine (Icosahedron Update) loaded");
+// A quiet, uncoloured 3 × 3 wireframe cube for ryoyr.log.
+(function () {
+  function initCube(containerId, scale = 1, type = 'rubiks') {
+    const container = document.getElementById(containerId)
+    if (!container) return
 
-  function initCube(containerId, scale = 1.0, type = "icosahedron") {
-    const container = document.getElementById(containerId);
-    if (!container) return;
+    const canvas = document.createElement('canvas')
+    canvas.style.display = 'block'
+    canvas.style.width = '100%'
+    container.appendChild(canvas)
+    const ctx = canvas.getContext('2d')
+    let width = 0
+    let height = 0
 
-    const canvas = document.createElement('canvas');
-    canvas.style.display = "block";
-    canvas.style.width = "100%";
-    container.appendChild(canvas);
-    
-    const ctx = canvas.getContext('2d');
-
-    let width, height;
     function resize() {
-      const dpr = window.devicePixelRatio || 1;
-      width = container.clientWidth;
-      height = width * 0.75;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      ctx.scale(dpr, dpr);
+      const dpr = window.devicePixelRatio || 1
+      width = container.clientWidth
+      height = width * 0.75
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
-    window.addEventListener('resize', resize);
-    resize();
 
-    let verts = [];
-    let edges = [];
+    function rotateX([x, y, z], angle) {
+      const c = Math.cos(angle), s = Math.sin(angle)
+      return [x, c * y - s * z, s * y + c * z]
+    }
 
-    if (type === "cube") {
-      verts = [
-        [-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],
-        [-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]
-      ];
-      edges = [
-        [0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]
-      ];
-    } else if (type === "icosahedron") {
-      // 正二十面体の定義
-      const phi = (1 + Math.sqrt(5)) / 2; // 黄金比
-      
-      // 12個の頂点
-      verts = [
-        [-1,  phi,  0], [ 1,  phi,  0], [-1, -phi,  0], [ 1, -phi,  0],
-        [ 0, -1,  phi], [ 0,  1,  phi], [ 0, -1, -phi], [ 0,  1, -phi],
-        [ phi,  0, -1], [ phi,  0,  1], [-phi,  0, -1], [-phi,  0,  1]
-      ];
+    function rotateY([x, y, z], angle) {
+      const c = Math.cos(angle), s = Math.sin(angle)
+      return [c * x + s * z, y, -s * x + c * z]
+    }
 
-      // 30本の辺（距離が一定以下の頂点同士を結ぶ）
-      for (let i = 0; i < verts.length; i++) {
-        for (let j = i + 1; j < verts.length; j++) {
-          const d2 = Math.pow(verts[i][0]-verts[j][0], 2) + 
-                     Math.pow(verts[i][1]-verts[j][1], 2) + 
-                     Math.pow(verts[i][2]-verts[j][2], 2);
-          // 距離の2乗が約4になるペアが辺
-          if (d2 < 4.1) {
-            edges.push([i, j]);
+    function rotateZ([x, y, z], angle) {
+      const c = Math.cos(angle), s = Math.sin(angle)
+      return [c * x - s * y, s * x + c * y, z]
+    }
+
+    function transform(point, rotation) {
+      return rotateZ(rotateY(rotateX(point, rotation.x), rotation.y), rotation.z)
+    }
+
+    function smoothstep(min, max, value) {
+      const t = Math.max(0, Math.min(1, (value - min) / (max - min)))
+      return t * t * (3 - 2 * t)
+    }
+
+    function project([x, y]) {
+      // The assembled object is wider than the former single-cube outline.
+      const base = (width / 10.4) * scale
+      return [width * 0.5 + x * base, height * 0.5 - y * base]
+    }
+
+    // 26 independent cubelets: the centre at (0, 0, 0) is intentionally absent.
+    // A small gap between 0.41-unit cubelets keeps the assembly legible as a Rubik's Cube.
+    const cubeletHalf = 0.41
+    const cubeExtent = 1 + cubeletHalf
+    const cubeletVertices = [
+      [-cubeletHalf, -cubeletHalf, -cubeletHalf], [cubeletHalf, -cubeletHalf, -cubeletHalf],
+      [cubeletHalf, cubeletHalf, -cubeletHalf], [-cubeletHalf, cubeletHalf, -cubeletHalf],
+      [-cubeletHalf, -cubeletHalf, cubeletHalf], [cubeletHalf, -cubeletHalf, cubeletHalf],
+      [cubeletHalf, cubeletHalf, cubeletHalf], [-cubeletHalf, cubeletHalf, cubeletHalf],
+    ]
+    const edgeIndices = [
+      [0, 1], [1, 2], [2, 3], [3, 0],
+      [4, 5], [5, 6], [6, 7], [7, 4],
+      [0, 4], [1, 5], [2, 6], [3, 7],
+    ]
+
+    function createCubelets() {
+      const cubelets = []
+      for (let x = -1; x <= 1; x += 1) {
+        for (let y = -1; y <= 1; y += 1) {
+          for (let z = -1; z <= 1; z += 1) {
+            if (x === 0 && y === 0 && z === 0) continue
+            const position = [x, y, z]
+            cubelets.push({ position, waveAnchor: [...position] })
           }
         }
       }
-    } else if (type === "torus") {
-      const R = 2, r = 0.8, detailU = 20, detailV = 12;
-      for (let i = 0; i < detailU; i++) {
-        let u = (i / detailU) * Math.PI * 2;
-        for (let j = 0; j < detailV; j++) {
-          let v = (j / detailV) * Math.PI * 2;
-          verts.push([ (R + r * Math.cos(v)) * Math.cos(u), (R + r * Math.cos(v)) * Math.sin(u), r * Math.sin(v) ]);
-          let curr = i * detailV + j;
-          edges.push([curr, ((i + 1) % detailU) * detailV + j]);
-          edges.push([curr, i * detailV + ((j + 1) % detailV)]);
-        }
+      return cubelets
+    }
+
+    function rotateOnAxis(point, axis, angle) {
+      if (axis === 'x') return rotateX(point, angle)
+      if (axis === 'y') return rotateY(point, angle)
+      return rotateZ(point, angle)
+    }
+
+    function turnPosition(position, axis, direction) {
+      return rotateOnAxis(position, axis, direction * Math.PI / 2).map((value) => Math.round(value))
+    }
+
+    function isOuterEdge(a, b) {
+      return [0, 1, 2].some((axis) =>
+        Math.abs(Math.abs(a[axis]) - cubeExtent) < 0.001 && Math.abs(Math.abs(b[axis]) - cubeExtent) < 0.001)
+    }
+
+    const cubelets = createCubelets()
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    // The floating mark is deliberately quieter at its smaller display size.
+    const waveAmplitude = scale < 0.5 ? 0.09 : 0.15
+    const MIN_ROTATION_SPEED = 0.01
+    const MAX_ROTATION_SPEED = 0.05
+    const ROTATION_SPEED_CYCLE = 12000
+    const faceTurnsEnabled = scale >= 0.5 && !reduceMotion
+    const faces = [
+      { axis: 'x', layer: 1, key: 'R' }, { axis: 'x', layer: -1, key: 'L' },
+      { axis: 'y', layer: 1, key: 'U' }, { axis: 'y', layer: -1, key: 'D' },
+      { axis: 'z', layer: 1, key: 'F' }, { axis: 'z', layer: -1, key: 'B' },
+    ]
+    let activeTurn = null
+    let lastFace = null
+    let sequence = null
+    let nextTurnAt = faceTurnsEnabled ? performance.now() + 2500 + Math.random() * 1500 : Infinity
+    const rotationCycleStartedAt = performance.now()
+    let rotationTime = 0
+    let time = 0
+
+    function rotationSpeed(now) {
+      const phase = ((now - rotationCycleStartedAt) / ROTATION_SPEED_CYCLE) * Math.PI * 2
+      const normalized = 0.5 - 0.5 * Math.cos(phase)
+      return MIN_ROTATION_SPEED + (MAX_ROTATION_SPEED - MIN_ROTATION_SPEED) * normalized
+    }
+
+    function sequenceLength() {
+      const roll = Math.random()
+      if (roll < 0.5) return 2
+      if (roll < 0.85) return 3
+      return 4
+    }
+
+    function startNextTurn(now) {
+      const choices = faces.filter((face) => face.key !== sequence.lastFace && face.key !== lastFace)
+      const face = choices[Math.floor(Math.random() * choices.length)]
+      activeTurn = {
+        ...face,
+        direction: Math.random() < 0.5 ? -1 : 1,
+        startedAt: now,
+        duration: 850,
       }
-    } else if (type === "sphere") {
-      const detail = 12;
-      for (let i = 0; i <= detail; i++) {
-        let lat = (i / detail) * Math.PI;
-        for (let j = 0; j < detail; j++) {
-          let lon = (j / detail) * Math.PI * 2;
-          verts.push([ Math.sin(lat) * Math.cos(lon) * 2, Math.cos(lat) * 2, Math.sin(lat) * Math.sin(lon) * 2 ]);
-          let curr = i * detail + j;
-          if (i < detail) {
-            edges.push([curr, (i + 1) * detail + j]);
-            edges.push([curr, i * detail + ((j + 1) % detail)]);
-          }
+      sequence.state = 'turning'
+    }
+
+    function startSequence(now) {
+      sequence = { remaining: sequenceLength(), lastFace: null, state: 'ready', nextAt: now }
+      startNextTurn(now)
+    }
+
+    function updateTurn(now) {
+      if (!faceTurnsEnabled) return
+      if (!sequence && now >= nextTurnAt) startSequence(now)
+      if (sequence && sequence.state === 'sequence-pause' && now >= sequence.nextAt) startNextTurn(now)
+      if (!activeTurn) return
+
+      const progress = Math.min(1, (now - activeTurn.startedAt) / activeTurn.duration)
+      if (progress < 1) return
+
+      cubelets.forEach((cubelet) => {
+        const axisIndex = activeTurn.axis === 'x' ? 0 : activeTurn.axis === 'y' ? 1 : 2
+        if (cubelet.position[axisIndex] === activeTurn.layer) {
+          cubelet.position = turnPosition(cubelet.position, activeTurn.axis, activeTurn.direction)
         }
+      })
+      lastFace = activeTurn.key
+      activeTurn = null
+      sequence.remaining -= 1
+      sequence.lastFace = lastFace
+      if (sequence.remaining > 0) {
+        sequence.state = 'sequence-pause'
+        sequence.nextAt = now + 150 + Math.random() * 150
+        return
       }
+
+      sequence = null
+      nextTurnAt = now + 4000 + Math.random() * 3000
     }
 
-    const BASE_SCALE = (width / 8) * scale;
-
-    function rotX(p, a) {
-      let [x, y, z] = p;
-      let ca = Math.cos(a), sa = Math.sin(a);
-      return [x, ca*y - sa*z, sa*y + ca*z];
-    }
-    function rotY(p, a) {
-      let [x, y, z] = p;
-      let ca = Math.cos(a), sa = Math.sin(a);
-      return [ca*x + sa*z, y, -sa*x + ca*z];
-    }
-    function rotZ(p, a) {
-      let [x, y, z] = p;
-      let ca = Math.cos(a), sa = Math.sin(a);
-      return [ca*x - sa*y, sa*x + ca*y, z];
+    function turnAngle(cubelet, now) {
+      if (!activeTurn) return 0
+      const axisIndex = activeTurn.axis === 'x' ? 0 : activeTurn.axis === 'y' ? 1 : 2
+      if (cubelet.position[axisIndex] !== activeTurn.layer) return 0
+      const progress = Math.min(1, (now - activeTurn.startedAt) / activeTurn.duration)
+      const eased = progress * progress * (3 - 2 * progress)
+      return activeTurn.direction * Math.PI / 2 * eased
     }
 
-    function project(p) {
-      let [x, y, z] = p;
-      return [width * 0.5 + x * BASE_SCALE, height * 0.5 - y * BASE_SCALE];
+    function draw(now) {
+      ctx.clearRect(0, 0, width, height)
+      const css = getComputedStyle(document.documentElement)
+      const color = css.getPropertyValue('--lab-ink').trim() || '#17171b'
+      const rotation = {
+        // Start with front, top and side clearly visible; then move almost imperceptibly.
+        x: 0.58 + rotationTime * 0.19,
+        y: -0.7 + rotationTime * 0.27,
+        z: 0.08 + rotationTime * 0.08,
+      }
+
+      const paintedLines = []
+      cubelets.forEach((cubelet) => {
+        const angle = turnAngle(cubelet, now)
+        const localCenter = rotateOnAxis(cubelet.position, activeTurn ? activeTurn.axis : 'x', angle)
+        const vertices = cubeletVertices.map(([x, y, z]) => {
+          const point = [cubelet.position[0] + x, cubelet.position[1] + y, cubelet.position[2] + z]
+          return rotateOnAxis(point, activeTurn ? activeTurn.axis : 'x', angle)
+        })
+        edgeIndices.forEach(([from, to]) => {
+          const a = vertices[from]
+          const b = vertices[to]
+          paintedLines.push({
+            a: transform(a, rotation),
+            b: transform(b, rotation),
+            center: transform(localCenter, rotation),
+            waveAnchor: cubelet.waveAnchor,
+            outer: isOuterEdge(a, b),
+          })
+        })
+      })
+      paintedLines.sort((left, right) => ((left.a[2] + left.b[2]) - (right.a[2] + right.b[2])))
+
+      ctx.strokeStyle = color
+      paintedLines.forEach((line) => {
+        // Depth fades continuously rather than switching at a front/rear threshold.
+        const depthFactor = 0.2 + 0.8 * smoothstep(-1.7, 1.7, line.center[2])
+        // A cubelet carries its Wave phase through a face turn rather than abruptly changing shade.
+        const wavePosition = line.waveAnchor[0] * 0.9 + line.waveAnchor[1] * 0.65 + line.waveAnchor[2] * 0.8
+        const wave = 0.5 + 0.5 * Math.sin(wavePosition * 1.35 - time * 2.6)
+        const waveFactor = 1 + (wave - 0.5) * 2 * waveAmplitude
+        const baseOpacity = line.outer ? 0.64 : 0.39
+        ctx.lineWidth = line.outer ? 0.58 : 0.38
+        ctx.globalAlpha = Math.max(0.025, Math.min(0.75, baseOpacity * depthFactor * waveFactor))
+        const a = project(line.a)
+        const b = project(line.b)
+        ctx.beginPath()
+        ctx.moveTo(a[0], a[1])
+        ctx.lineTo(b[0], b[1])
+        ctx.stroke()
+      })
+      ctx.globalAlpha = 1
     }
 
-    let t = 0;
-    function animate() {
-      ctx.clearRect(0, 0, width, height);
-      const color = getComputedStyle(document.documentElement).getPropertyValue('--tw-prose-body') || '#000';
-      ctx.strokeStyle = color; 
-      ctx.lineWidth = 0.6; // 線をより細く（1.5 -> 0.6）
-      ctx.globalAlpha = 1.0; // 少し透けさせて繊細に（0.8 -> 0.5）
-
-      const scrollRotation = window.scrollY * 0.003;
-      let ax = (t * 0.5) + scrollRotation;
-      let ay = (t * 0.7) + scrollRotation * 1.1;
-      let az = (t * 0.3);
-
-      let proj = verts.map(v => {
-        let p = rotX(v, ax);
-        p = rotY(p, ay);
-        p = rotZ(p, az);
-        return project(p);
-      });
-
-      edges.forEach(([i, j]) => {
-        if (!proj[i] || !proj[j]) return;
-        ctx.beginPath();
-        ctx.moveTo(proj[i][0], proj[i][1]);
-        ctx.lineTo(proj[j][0], proj[j][1]);
-        ctx.stroke();
-      });
-
-      t += 0.02;
-      requestAnimationFrame(animate);
+    function animate(now = performance.now()) {
+      updateTurn(now)
+      draw(now)
+      rotationTime += rotationSpeed(now)
+      time += 0.03
+      if (!reduceMotion) requestAnimationFrame(animate)
     }
-    animate();
+
+    resize()
+    window.addEventListener('resize', () => {
+      resize()
+      draw(performance.now())
+    }, { passive: true })
+    // `type` remains accepted so existing shortcode calls stay API-compatible.
+    void type
+    animate()
   }
-  window.initCube = initCube;
-})();
+
+  window.initCube = initCube
+})()
