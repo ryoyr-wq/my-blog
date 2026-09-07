@@ -1,0 +1,7 @@
+# Hugo build output and generated resource cache
+/public/
+/resources/_gen/
+.hugo_build.lock
+
+# Windows alternate data stream metadata
+*:Zone.Identifier
