@@ -1,0 +1,14 @@
+{{ $taxonomy := .Data.Plural }}
+<header class="taxonomy-index-header">
+  <h1>{{ .Title }}</h1>
+</header>
+
+<section class="taxonomy-index taxonomy-index--{{ $taxonomy }}" aria-label="{{ .Title }}">
+  {{ range .Data.Terms.ByCount }}
+    {{ $termTitle := .Page.LinkTitle | default .Page.Title }}
+    <a class="taxonomy-index__item taxonomy-index__item--{{ $taxonomy }}" href="{{ .Page.RelPermalink }}">
+      <span class="taxonomy-index__term">{{ $termTitle }}</span>
+      <span class="taxonomy-index__count">{{ printf "%02d" .Count }}</span>
+    </a>
+  {{ end }}
+</section>

@@ -1,1 +1,4 @@
 {{ partial "rotating-cube-script.html" . }}
+{{ if and .IsPage (eq .Section "posts") }}
+  {{ partial "floating-3d.html" . }}
+{{ end }}

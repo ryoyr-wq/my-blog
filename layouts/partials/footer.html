@@ -78,6 +78,6 @@
     integrity="{{ $jsProcess.Data.Integrity }}"></script>
   {{/* Extend footer - eg. for extra scripts, etc. */}}
   {{ if templates.Exists "partials/extend-footer.html" }}
-    {{ partialCached "extend-footer.html" . }}
+    {{ partial "extend-footer.html" . }}
   {{ end }}
 </footer>
