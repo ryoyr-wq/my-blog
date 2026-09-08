@@ -7,8 +7,17 @@
     <h2><a href="{{ with .Params.externalUrl }}{{ . }}{{ else }}{{ .RelPermalink }}{{ end }}"{{ with .Params.externalUrl }} target="_blank" rel="external"{{ end }}>{{ .Title | emojify }}{{ with .Params.externalUrl }} <span aria-hidden="true">↗</span>{{ end }}</a></h2>
     {{ with .Summary }}<p>{{ . | plainify | truncate 130 }}</p>{{ end }}
     <div class="entry-terms">
-      {{ range .GetTerms "categories" }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}
-      {{ range first 2 (.GetTerms "tags") }}<a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a>{{ end }}
+      {{ range .GetTerms "categories" }}
+        <a class="entry-category" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+      {{ end }}
+      {{ with .GetTerms "tags" }}
+        {{ range first 3 . }}
+          <a class="entry-tag" href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a>
+        {{ end }}
+        {{ if gt (len .) 3 }}
+          <span class="entry-terms-more" aria-label="さらにタグがあります">…</span>
+        {{ end }}
+      {{ end }}
     </div>
   </div>
 </article>

@@ -69,6 +69,10 @@ html.dark ::selection {
   text-decoration: none !important;
 }
 
+.site-wordmark__dot {
+  color: var(--lab-violet);
+}
+
 .site-wordmark::after {
   content: "";
   display: inline-block;
@@ -76,7 +80,7 @@ html.dark ::selection {
   height: .32rem;
   margin-left: .14rem;
   border-radius: 50%;
-  background: var(--lab-violet);
+  background: var(--lab-orange);
   vertical-align: .16em;
 }
 
@@ -123,6 +127,11 @@ html.dark ::selection {
 .site-tools button:focus-visible,
 .site-menu summary:hover {
   color: var(--lab-violet) !important;
+}
+
+.site-nav a[href="/categories/"]:hover,
+.site-nav a[href="/categories/"]:focus-visible {
+  color: var(--lab-orange) !important;
 }
 
 .site-tools {
@@ -446,13 +455,8 @@ html.dark #appearance-switcher-mobile:focus-visible {
   transition: color 180ms ease;
 }
 
-.editorial-entry h2 a {
-  transition: color 180ms ease,transform 180ms ease;
-}
-
 .editorial-entry h2 a:hover {
   color: var(--lab-violet) !important;
-  transform: translateX(2px);
 }
 
 .log-entry p,
@@ -844,14 +848,10 @@ input:focus-visible {
   }
 }
 
-/* Keep taxonomy hover movement horizontal and deliberately slight. */
+/* Taxonomy links use colour and a soft fill without positional movement. */
 .entry-terms a {
   display: inline-block;
-  transition: color 180ms ease,transform 180ms ease,background-color 180ms ease;
-}
-
-.entry-terms a:hover {
-  transform: translateX(3px);
+  transition: color 180ms ease,background-color 180ms ease;
 }
 
 /* Homepage log tags wrap naturally while keeping the truncation mark subdued. */
@@ -1098,6 +1098,32 @@ body:has(.taxonomy-index--tags) #main-content > .taxonomy-index-header h1::befor
   color: var(--lab-violet);
 }
 
+/* Taxonomy term pages reuse the editorial article list, not the taxonomy grid. */
+#main-content > header.taxonomy-term--categories h1::before {
+  color: var(--lab-orange);
+}
+
+#main-content > header.taxonomy-term--tags h1::before {
+  color: var(--lab-violet);
+}
+
+.taxonomy-term-list {
+  max-width: 50rem;
+  margin-top: clamp(2rem,4vw,3.25rem);
+}
+
+.taxonomy-term-list .editorial-entry:last-child {
+  border-bottom: 0;
+}
+
+.taxonomy-term-empty {
+  max-width: 44rem;
+  margin-top: 2.5rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--lab-line);
+  color: var(--lab-muted);
+}
+
 @media (max-width:767px) {
   .taxonomy-index {
     gap: 0 .7rem;
@@ -1118,5 +1144,165 @@ body:has(.taxonomy-index--tags) #main-content > .taxonomy-index-header h1::befor
 
   .taxonomy-index__count {
     margin-left: .65rem;
+  }
+}
+
+/* Article refinement */
+#single_header > div:first-of-type {
+  margin-top: 1rem;
+  margin-bottom: 1.15rem;
+}
+
+#single_header .rounded-md {
+  border-radius: 2px !important;
+}
+
+.article-content :where(ul,ol):not(:where([class~="not-prose"] *)) {
+  margin-top: 1.3em;
+  margin-bottom: 1.3em;
+}
+
+.article-content :where(li):not(:where([class~="not-prose"] *)) + li {
+  margin-top: .42em;
+}
+
+.article-content :where(figure):not(:where([class~="not-prose"] *)) {
+  margin-top: 2.25em;
+  margin-bottom: 2.25em;
+}
+
+.article-content :where(figcaption):not(:where([class~="not-prose"] *)) {
+  margin-top: .6rem;
+  color: var(--lab-muted);
+  font-family: var(--lab-mono);
+  font-size: .68rem;
+  line-height: 1.6;
+}
+
+article > footer {
+  max-width: 44rem;
+}
+
+article > footer hr {
+  border-color: var(--lab-line) !important;
+  border-style: solid !important;
+}
+
+article > footer a {
+  color: var(--lab-secondary) !important;
+  text-decoration: none !important;
+  transition: color 180ms ease;
+}
+
+article > footer a:hover {
+  color: var(--lab-violet) !important;
+}
+
+/* Posts archive */
+.editorial-entry .entry-terms-more {
+  color: var(--lab-secondary);
+}
+
+/* About */
+.lab-about,
+.lab-not-found {
+  max-width: 44rem;
+  padding: clamp(3.9rem,8vw,6.8rem) 0 4.5rem;
+}
+
+.lab-document-header {
+  padding-bottom: 1.65rem;
+  border-bottom: 1px solid var(--lab-line);
+}
+
+.lab-document-label {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  margin: 0 0 1rem;
+  color: var(--lab-muted);
+  font-family: var(--lab-mono);
+  font-size: .67rem;
+  font-weight: 650;
+  letter-spacing: .1em;
+}
+
+.lab-document-label span {
+  width: .36rem;
+  height: .36rem;
+  border-radius: 50%;
+  background: var(--lab-orange);
+}
+
+.lab-document-header h1 {
+  margin: 0;
+  color: var(--lab-ink);
+  font-size: clamp(2.6rem,6vw,4.6rem);
+  font-weight: 690;
+  letter-spacing: -.06em;
+  line-height: .98;
+}
+
+.lab-document-content {
+  max-width: 40rem;
+  margin-top: 2.25rem;
+}
+
+.lab-document-content :where(h2):not(:where([class~="not-prose"] *)) {
+  margin-top: 2.6em;
+}
+
+/* 404 */
+.lab-not-found {
+  min-height: min(32rem,calc(100vh - 15rem));
+}
+
+.lab-not-found__title {
+  margin: 1.05rem 0 0;
+  color: var(--lab-secondary);
+  font-family: var(--lab-mono);
+  font-size: .74rem;
+  font-weight: 650;
+  letter-spacing: .1em;
+}
+
+.lab-not-found__body {
+  margin-top: 2rem;
+  color: var(--lab-secondary);
+}
+
+.lab-not-found__link {
+  display: inline-flex;
+  gap: .55rem;
+  margin-top: 1.35rem;
+  padding-bottom: .16rem;
+  border-bottom: 1px solid var(--lab-violet);
+  color: var(--lab-ink) !important;
+  font-family: var(--lab-mono);
+  font-size: .74rem;
+  text-decoration: none !important;
+  transition: color 180ms ease;
+}
+
+.lab-not-found__link span {
+  color: var(--lab-violet);
+}
+
+.lab-not-found__link:hover {
+  color: var(--lab-violet) !important;
+}
+
+@media (max-width:767px) {
+  .lab-about,
+  .lab-not-found {
+    padding-top: 4rem;
+  }
+
+  .lab-document-header h1 {
+    font-size: clamp(2.5rem,13vw,3.75rem);
+  }
+
+  .lab-not-found {
+    min-height: 20rem;
   }
 }

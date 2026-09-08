@@ -1,0 +1,16 @@
+<header class="taxonomy-term taxonomy-term--{{ .Data.Plural }}">
+  <h1 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
+</header>
+
+{{ $pages := .Pages.ByDate.Reverse }}
+{{ if gt (len $pages) 0 }}
+  <section class="taxonomy-term-list editorial-list" aria-label="{{ .Title }}の記事">
+    {{ range $pages }}
+      {{ partial "article-link/simple.html" . }}
+    {{ end }}
+  </section>
+{{ else }}
+  <section class="taxonomy-term-empty prose dark:prose-invert">
+    <p><em>{{ i18n "term.no_articles" | emojify }}</em></p>
+  </section>
+{{ end }}

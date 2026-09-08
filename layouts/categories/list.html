@@ -1,3 +1,7 @@
 {{ define "main" }}
-  {{ partial "taxonomy-index.html" . }}
+  {{ if .Data.Terms }}
+    {{ partial "taxonomy-index.html" . }}
+  {{ else }}
+    {{ partial "taxonomy-term.html" . }}
+  {{ end }}
 {{ end }}

@@ -1,0 +1,13 @@
+{{ define "main" }}
+  <article class="lab-not-found">
+    <header class="lab-document-header">
+      <p class="lab-document-label"><span></span> ERROR /</p>
+      <h1>404</h1>
+      <p class="lab-not-found__title">PAGE NOT FOUND</p>
+    </header>
+    <div class="lab-not-found__body">
+      <p>ページが見つかりませんでした．URLをご確認ください．</p>
+      <a class="lab-not-found__link" href="{{ "" | relLangURL }}">ホームへ戻る <span aria-hidden="true">→</span></a>
+    </div>
+  </article>
+{{ end }}

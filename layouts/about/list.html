@@ -1,0 +1,11 @@
+{{ define "main" }}
+  <article class="lab-about">
+    <header class="lab-document-header">
+      <p class="lab-document-label"><span></span> ABOUT /</p>
+      <h1>{{ .Title }}</h1>
+    </header>
+    <section class="lab-document-content prose dark:prose-invert">
+      {{ .Content }}
+    </section>
+  </article>
+{{ end }}
