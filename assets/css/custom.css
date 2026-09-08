@@ -9,7 +9,6 @@
   --lab-soft: #f0f0f2;
   --lab-violet: #635bdb;
   --lab-violet-soft: color-mix(in srgb,var(--lab-violet) 13%,transparent);
-  --lab-violet-title-hover: color-mix(in srgb,var(--lab-violet) 70%,var(--lab-ink));
   --lab-orange: #c66c32;
   --lab-orange-soft: color-mix(in srgb,var(--lab-orange) 11%,transparent);
   --lab-mono: ui-monospace,"SFMono-Regular","Cascadia Code","Roboto Mono",Menlo,Consolas,monospace;
@@ -438,6 +437,7 @@ html.dark #appearance-switcher-mobile:focus-visible {
   color: var(--lab-muted);
 }
 
+.log-entry h2,
 .log-entry h3,
 .editorial-entry h2 {
   margin: 0;
@@ -447,6 +447,7 @@ html.dark #appearance-switcher-mobile:focus-visible {
   line-height: 1.3;
 }
 
+.log-entry h2 a,
 .log-entry h3 a,
 .editorial-entry h2 a {
   display: inline-block;
@@ -585,11 +586,15 @@ body:has(.site-nav a.is-current[href="/posts/"]) #main-content > header h1::befo
 }
 
 .prose :where(a):not(:where([class~="not-prose"] *)) {
-  color: inherit;
+  color: var(--lab-violet);
   text-decoration-color: var(--lab-violet);
   text-decoration-thickness: 1px;
   text-underline-offset: .2em;
   transition: color 180ms ease,text-decoration-thickness 180ms ease;
+}
+
+.prose :where(a:visited):not(:where([class~="not-prose"] *)) {
+  color: var(--lab-violet);
 }
 
 .prose :where(a:hover):not(:where([class~="not-prose"] *)) {
@@ -598,7 +603,7 @@ body:has(.site-nav a.is-current[href="/posts/"]) #main-content > header h1::befo
 }
 
 .prose :where(blockquote):not(:where([class~="not-prose"] *)) {
-  border-left: 2px solid var(--lab-violet);
+  border-left: 2px solid var(--lab-orange);
   color: var(--lab-muted);
   font-weight: 400;
 }
@@ -641,7 +646,7 @@ body:has(.site-nav a.is-current[href="/posts/"]) #main-content > header h1::befo
 }
 
 .article-content :where(li)::marker {
-  color: var(--lab-violet);
+  color: var(--lab-secondary);
 }
 
 .toc-right,
@@ -655,9 +660,13 @@ body:has(.site-nav a.is-current[href="/posts/"]) #main-content > header h1::befo
   line-height: 1.6;
 }
 
-.toc #TableOfContents a {
-  color: var(--lab-muted);
-  text-decoration: none;
+#TableOfContents a {
+  color: var(--lab-secondary);
+}
+
+#TableOfContents a:hover,
+#TableOfContents a:focus-visible {
+  color: var(--lab-violet);
 }
 
 .toc #TableOfContents a:hover,
@@ -669,6 +678,97 @@ body:has(.site-nav a.is-current[href="/posts/"]) #main-content > header h1::befo
   border-inline-start: 1px solid var(--lab-violet);
   margin-inline-start: -.55rem;
   padding-inline-start: .5rem;
+}
+
+/* Article UI color audit: override Blowfish primary-blue utilities. */
+#single_header .text-primary-500 {
+  color: var(--lab-muted) !important;
+}
+
+.prose :where(h2,h3,h4,h5,h6) .anchor + span a {
+  color: var(--lab-orange) !important;
+}
+
+.toc summary {
+  background: var(--lab-soft) !important;
+  color: var(--lab-ink) !important;
+}
+
+.toc summary::marker,
+.toc summary::-webkit-details-marker {
+  color: var(--lab-orange);
+}
+
+.toc > details > div {
+  border-color: var(--lab-line) !important;
+}
+
+.prose :where(.footnotes):not(:where([class~="not-prose"] *)) {
+  border-color: var(--lab-line);
+  color: var(--lab-secondary);
+}
+
+.prose :where(.footnote-ref,.footnotes a):not(:where([class~="not-prose"] *)) {
+  color: var(--lab-violet);
+}
+
+.prose :where(table,th,td):not(:where([class~="not-prose"] *)) {
+  border-color: var(--lab-line);
+}
+
+.prose :where(th):not(:where([class~="not-prose"] *)) {
+  background: var(--lab-soft);
+  color: var(--lab-ink);
+}
+
+.highlight-wrapper > .copy-button {
+  display: grid;
+  visibility: visible;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0 0 0 2px;
+  background: transparent;
+  color: var(--lab-muted);
+  font-family: var(--lab-mono);
+  font-size: 1rem;
+  line-height: 1;
+  opacity: 1;
+  transition: color 180ms ease,background-color 180ms ease;
+}
+
+.highlight-wrapper > .copy-button:hover,
+.highlight-wrapper > .copy-button:focus-visible,
+.highlight-wrapper > .copy-button:active {
+  background: var(--lab-violet-soft);
+  color: var(--lab-violet);
+}
+
+.highlight-wrapper > .copy-button:focus-visible {
+  outline: 2px solid var(--lab-violet);
+  outline-offset: -3px;
+}
+
+#scroll-to-top a {
+  background: var(--lab-soft) !important;
+  color: var(--lab-secondary) !important;
+}
+
+#scroll-to-top a:hover,
+#scroll-to-top a:focus-visible {
+  background: var(--lab-violet-soft) !important;
+  color: var(--lab-violet) !important;
+}
+
+#the-top a {
+  background: var(--lab-soft) !important;
+  color: var(--lab-ink) !important;
+}
+
+#the-top a span {
+  color: var(--lab-violet) !important;
 }
 
 .badge {
@@ -854,7 +954,7 @@ input:focus-visible {
   transition: color 180ms ease,background-color 180ms ease;
 }
 
-/* Homepage log tags wrap naturally while keeping the truncation mark subdued. */
+/* List taxonomy terms wrap naturally; only Home supplies a truncation mark. */
 .log-terms > span,
 .log-terms > a {
   white-space: nowrap;
@@ -962,9 +1062,22 @@ input:focus-visible {
   opacity: 1;
 }
 
-/* Homepage log titles use a restrained violet cue without positional motion. */
-.log-entry h3 a:hover {
-  color: var(--lab-violet-title-hover) !important;
+/* Home and archive titles share the same direct Purple hover. */
+.log-entry :is(h2,h3) a:hover {
+  color: var(--lab-violet) !important;
+}
+
+/* Archive keeps its year groups while using the Home row rhythm. */
+#main-content > header + section + section.space-y-10 > .log-entry {
+  margin-block: 0 !important;
+}
+
+#main-content > header + section + section.space-y-10 > .log-entry:last-child {
+  border-bottom: 0;
+}
+
+#main-content > header + section + section.space-y-10 {
+  border-bottom: 1px solid var(--lab-line);
 }
 
 /* Taxonomy index: compact classification records, not article listings. */
@@ -1254,7 +1367,28 @@ article > footer a:hover {
 
 /* 404 */
 .lab-not-found {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(17.5rem,22rem);
+  align-items: center;
+  max-width: 64rem;
+  column-gap: clamp(3rem,8vw,7rem);
   min-height: min(32rem,calc(100vh - 15rem));
+}
+
+.lab-not-found__content {
+  max-width: 44rem;
+}
+
+.lab-not-found__visual {
+  width: min(100%,22rem);
+  justify-self: end;
+  opacity: .74;
+}
+
+.lab-not-found__visual img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .lab-not-found__title {
@@ -1290,6 +1424,17 @@ article > footer a:hover {
 
 .lab-not-found__link:hover {
   color: var(--lab-violet) !important;
+}
+
+@media (max-width:900px) {
+  .lab-not-found {
+    display: block;
+    max-width: 44rem;
+  }
+
+  .lab-not-found__visual {
+    display: none;
+  }
 }
 
 @media (max-width:767px) {

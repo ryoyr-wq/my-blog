@@ -1,0 +1,24 @@
+{{/* List taxonomy terms. maxTags limits only Home; omit it for a full archive listing. */}}
+{{ $context := .context | default . }}
+{{ $maxTags := .maxTags | default 0 }}
+{{ $categories := $context.GetTerms "categories" }}
+{{ $tags := $context.GetTerms "tags" }}
+{{ $visibleTags := $tags }}
+{{ if gt $maxTags 0 }}
+  {{ $visibleTags = first $maxTags $tags }}
+{{ end }}
+
+{{ $hasCategory := gt (len $categories) 0 }}
+<div class="log-terms">
+  {{ range $index, $category := $categories }}
+    {{ if gt $index 0 }}<span>·</span>{{ end }}
+    <a class="log-category" href="{{ $category.RelPermalink }}">{{ $category.LinkTitle }}</a>
+  {{ end }}
+  {{ with $visibleTags }}
+    {{ range $index, $tag := . }}
+      {{ if or $hasCategory (gt $index 0) }}<span>·</span>{{ end }}
+      <a class="log-tag" href="{{ $tag.RelPermalink }}">{{ $tag.LinkTitle }}</a>
+    {{ end }}
+    {{ if and (gt $maxTags 0) (gt (len $tags) $maxTags) }}<span>·</span><span class="log-terms-more" aria-label="さらにタグがあります">…</span>{{ end }}
+  {{ end }}
+</div>

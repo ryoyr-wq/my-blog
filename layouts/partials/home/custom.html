@@ -31,17 +31,7 @@
           <div>
             <h3><a href="{{ .RelPermalink }}">{{ .Title | emojify }}</a></h3>
             {{ with .Summary }}<p>{{ . | plainify | truncate 105 }}</p>{{ end }}
-            {{ $hasCategory := gt (len (.GetTerms "categories")) 0 }}
-            <div class="log-terms">
-              {{ range first 1 (.GetTerms "categories") }}<a class="log-category" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}
-              {{ with .GetTerms "tags" }}
-                {{ range $index, $tag := first 3 . }}
-                  {{ if or $hasCategory (gt $index 0) }}<span>·</span>{{ end }}
-                  <a class="log-tag" href="{{ $tag.RelPermalink }}">{{ $tag.LinkTitle }}</a>
-                {{ end }}
-                {{ if gt (len .) 3 }}<span>·</span><span class="log-terms-more" aria-label="さらにタグがあります">…</span>{{ end }}
-              {{ end }}
-            </div>
+            {{ partial "article-terms.html" (dict "context" . "maxTags" 3) }}
           </div>
         </article>
       {{ end }}

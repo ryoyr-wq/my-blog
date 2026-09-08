@@ -1,23 +1,11 @@
-<article class="article-link--simple editorial-entry">
+<article class="article-link--simple log-entry">
   <div class="entry-stamp">
     <span class="log-number">{{ partial "log-number.html" . }}</span>
     <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>
   </div>
-  <div class="editorial-entry__body">
+  <div>
     <h2><a href="{{ with .Params.externalUrl }}{{ . }}{{ else }}{{ .RelPermalink }}{{ end }}"{{ with .Params.externalUrl }} target="_blank" rel="external"{{ end }}>{{ .Title | emojify }}{{ with .Params.externalUrl }} <span aria-hidden="true">↗</span>{{ end }}</a></h2>
-    {{ with .Summary }}<p>{{ . | plainify | truncate 130 }}</p>{{ end }}
-    <div class="entry-terms">
-      {{ range .GetTerms "categories" }}
-        <a class="entry-category" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
-      {{ end }}
-      {{ with .GetTerms "tags" }}
-        {{ range first 3 . }}
-          <a class="entry-tag" href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a>
-        {{ end }}
-        {{ if gt (len .) 3 }}
-          <span class="entry-terms-more" aria-label="さらにタグがあります">…</span>
-        {{ end }}
-      {{ end }}
-    </div>
+    {{ with .Summary }}<p>{{ . | plainify | truncate 105 }}</p>{{ end }}
+    {{ partial "article-terms.html" (dict "context" .) }}
   </div>
 </article>
