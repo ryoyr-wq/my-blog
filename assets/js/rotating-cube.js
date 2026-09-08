@@ -244,7 +244,8 @@
     function draw(now) {
       ctx.clearRect(0, 0, width, height)
       const css = getComputedStyle(document.documentElement)
-      const color = css.getPropertyValue('--lab-ink').trim() || '#17171b'
+      const darkMode = document.documentElement.classList.contains('dark')
+      const color = css.getPropertyValue('--lab-cube-ink').trim() || '#17171b'
       const rotation = {
         // Start with front, top and side clearly visible; then move almost imperceptibly.
         x: 0.58 + rotationTime * 0.19,
@@ -278,14 +279,18 @@
       ctx.strokeStyle = color
       paintedLines.forEach((line) => {
         // Each edge uses its current camera depth, including the temporary face-turn transform.
-        const depthFactor = 0.2 + 0.8 * smoothstep(-1.7, 1.7, line.depth)
+        const depthFactor = darkMode
+          ? 0.27 + 0.73 * smoothstep(-1.7, 1.7, line.depth)
+          : 0.2 + 0.8 * smoothstep(-1.7, 1.7, line.depth)
         // A cubelet carries its Wave phase through a face turn rather than abruptly changing shade.
         const wavePosition = line.waveAnchor[0] * 0.9 + line.waveAnchor[1] * 0.65 + line.waveAnchor[2] * 0.8
         const wave = 0.5 + 0.5 * Math.sin(wavePosition * 1.35 - time * 2.6)
         const waveFactor = 1 + (wave - 0.5) * 2 * waveAmplitude
-        const baseOpacity = 0.39 + 0.25 * line.outerFactor
+        const baseOpacity = darkMode
+          ? 0.47 + 0.33 * line.outerFactor
+          : 0.39 + 0.25 * line.outerFactor
         ctx.lineWidth = line.outerFactor > 0.99 ? 0.58 : 0.38
-        ctx.globalAlpha = Math.max(0.025, Math.min(0.75, baseOpacity * depthFactor * waveFactor))
+        ctx.globalAlpha = Math.max(0.025, Math.min(darkMode ? 0.82 : 0.75, baseOpacity * depthFactor * waveFactor))
         const a = project(line.a)
         const b = project(line.b)
         ctx.beginPath()

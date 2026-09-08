@@ -18,12 +18,12 @@
     {{ end }}
     {{ if .Site.Params.footer.showAppearanceSwitcher | default false }}
       <button id="appearance-switcher" class="site-tool hidden md:inline-flex" type="button" aria-label="表示テーマを切り替える" title="表示テーマを切り替える">
-        <span class="dark:hidden">{{ partial "icon.html" "moon" }}</span>
-        <span class="hidden dark:inline">{{ partial "icon.html" "sun" }}</span>
+        <span class="appearance-icon appearance-icon--moon">{{ partial "icon.html" "moon" }}</span>
+        <span class="appearance-icon appearance-icon--sun">{{ partial "icon.html" "sun" }}</span>
       </button>
       <button id="appearance-switcher-mobile" class="site-tool md:hidden" type="button" aria-label="表示テーマを切り替える" title="表示テーマを切り替える">
-        <span class="dark:hidden">{{ partial "icon.html" "moon" }}</span>
-        <span class="hidden dark:inline">{{ partial "icon.html" "sun" }}</span>
+        <span class="appearance-icon appearance-icon--moon">{{ partial "icon.html" "moon" }}</span>
+        <span class="appearance-icon appearance-icon--sun">{{ partial "icon.html" "sun" }}</span>
       </button>
     {{ end }}
     <details class="site-menu md:hidden">
