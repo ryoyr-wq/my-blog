@@ -1071,6 +1071,23 @@ input:focus-visible {
   .unix-search-modal { max-width: 34rem; }
   .unix-search-header { padding: .72rem .9rem .58rem; }
   .unix-search-command { font-size: .59rem; overflow-wrap: anywhere; }
+
+  /* Keep the compact footer metadata on one line without affecting desktop. */
+  #site-footer .footer-meta {
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: .4rem;
+    font-size: clamp(.5rem,2.55vw,.6rem);
+    letter-spacing: -.08em;
+  }
+
+  #site-footer .footer-meta__copyright,
+  #site-footer .footer-meta__attribution {
+    flex: none;
+    margin: 0;
+    font-size: inherit;
+    white-space: nowrap;
+  }
 }
 
 @media (prefers-reduced-motion:reduce) {

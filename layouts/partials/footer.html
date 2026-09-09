@@ -34,10 +34,10 @@
     {{ end }}
   {{ end }}
   <p class="footer-end">END OF LOG</p>
-  <div class="flex items-center justify-between">
+  <div class="footer-meta flex items-center justify-between">
     {{/* Copyright */}}
     {{ if .Site.Params.footer.showCopyright | default true }}
-      <p class="text-sm text-neutral-500 dark:text-neutral-400">
+      <p class="footer-meta__copyright text-sm text-neutral-500 dark:text-neutral-400">
         {{- with replace .Site.Params.copyright "{ year }" now.Year }}
           {{ . | markdownify }}
         {{- else }}
@@ -50,7 +50,7 @@
 
     {{/* Theme attribution */}}
     {{ if .Site.Params.footer.showThemeAttribution | default true }}
-      <p class="text-xs text-neutral-500 dark:text-neutral-400">
+      <p class="footer-meta__attribution text-xs text-neutral-500 dark:text-neutral-400">
         {{ $hugo := printf `<a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
           href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a>`
         }}
