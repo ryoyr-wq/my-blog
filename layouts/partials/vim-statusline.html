@@ -1,0 +1,7 @@
+{{ $path := partial "vim-file-path.html" . }}
+<div class="vim-statusline" aria-label="Markdown file status">
+  <span class="vim-status-mode">NORMAL</span>
+  <span class="vim-status-file" title="{{ $path }}">{{ $path }}</span>
+  <span class="vim-status-meta">markdown</span>
+  <span class="vim-status-meta">100%</span>
+</div>

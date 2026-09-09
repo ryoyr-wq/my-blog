@@ -11,6 +11,10 @@
 {{ with $context }}
   {{ $meta := newScratch }}
 
+  {{ if and (eq $scope "single") (eq .Section "posts") }}
+    {{ partial "vim-file-context.html" . }}
+  {{ end }}
+
   {{/* Gather partials for this context */}}
   {{ $shouldShowDate := false }}
   {{ if .Params.showDate | default (.Site.Params.article.showDate | default true) }}

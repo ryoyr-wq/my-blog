@@ -1,0 +1,9 @@
+{{/* Hugo-derived file information. FORMAT remains in the Vim statusline to avoid duplication. */}}
+<div class="article-file-meta" aria-label="記事ファイル情報">
+  {{ if gt .ReadingTime 0 }}
+    <span class="article-file-meta-item"><span class="article-file-meta-label">READ</span><span class="article-file-meta-value">{{ .ReadingTime }} MIN</span></span>
+  {{ end }}
+  {{ with .Section }}
+    <span class="article-file-meta-item"><span class="article-file-meta-label">SECTION</span><span class="article-file-meta-value">{{ . | upper }}</span></span>
+  {{ end }}
+</div>

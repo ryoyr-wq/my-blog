@@ -1,0 +1,11 @@
+{{/* A display-only virtual filesystem path for article-level Unix / Vim UI. */}}
+{{ $path := "" }}
+{{ with .File }}
+  {{ $path = printf "~/%s" .Path }}
+{{ end }}
+{{ if not $path }}
+  {{ $section := default "posts" .Section }}
+  {{ $name := default (.Title | urlize) .Slug }}
+  {{ $path = printf "~/%s/%s.md" $section $name }}
+{{ end }}
+{{ return $path }}

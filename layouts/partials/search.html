@@ -1,0 +1,14 @@
+<div id="search-wrapper" class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh] z-500" data-url="{{ "" | absLangURL }}">
+  <div id="search-modal" class="unix-search-modal flex flex-col w-full min-h-0 mx-auto top-20">
+    <header class="unix-search-header relative z-10 flex-none">
+      <p id="unix-search-command" class="unix-search-command"><span>$</span> grep -ri &lt;pattern&gt; ~/posts</p>
+      <form class="unix-search-form flex items-center min-w-0">
+        <span class="unix-search-prompt" aria-hidden="true">&gt;</span>
+        <input type="search" id="search-query" class="flex flex-auto min-w-0 appearance-none" placeholder="{{ i18n "search.input_placeholder" }}" tabindex="0">
+      </form>
+      <button id="close-search-button" class="flex items-center justify-center w-8 h-8" title="{{ i18n "search.close_button_title" }}">{{ partial "icon.html" "xmark" }}</button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto"><ul id="search-results"></ul></section>
+  </div>
+</div>
+<template id="search-file-paths">{{ range where .Site.RegularPages "Section" "posts" }}<span data-permalink="{{ .RelPermalink }}" data-path="{{ partial "vim-file-path.html" . }}"></span>{{ end }}</template>

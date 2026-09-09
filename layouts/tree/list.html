@@ -1,0 +1,62 @@
+{{ define "main" }}
+  {{ $posts := where .Site.RegularPages "Section" "posts" }}
+  {{ $posts = $posts.ByDate.Reverse }}
+  {{ $categories := .Site.Taxonomies.categories.Alphabetical }}
+  {{ $tags := .Site.Taxonomies.tags.Alphabetical }}
+  {{ $about := .Site.GetPage "/about" }}
+
+  <article class="site-tree-page">
+    <header class="site-tree-header">
+      <p class="unix-path">~/</p>
+      <h1>{{ .Title }}</h1>
+    </header>
+
+    <section class="site-tree" aria-label="サイト構造">
+      <div class="site-tree-root">~/</div>
+
+      <div class="site-tree-entry site-tree-entry--directory">
+        <span class="site-tree-branch">├──</span>
+        <a class="site-tree-path" href="{{ "posts/" | relLangURL }}">posts/</a>
+        <span class="site-tree-meta">{{ len $posts }} files</span>
+      </div>
+      {{ range $index, $post := $posts }}
+        {{ $filename := strings.TrimPrefix "~/posts/" (partial "vim-file-path.html" $post) }}
+        <div class="site-tree-entry site-tree-entry--file">
+          <span class="site-tree-branch">│   {{ if eq (add $index 1) (len $posts) }}└──{{ else }}├──{{ end }}</span>
+          <a class="site-tree-path" href="{{ $post.RelPermalink }}">{{ $filename }}</a>
+        </div>
+      {{ end }}
+
+      <div class="site-tree-entry site-tree-entry--directory site-tree-entry--categories">
+        <span class="site-tree-branch">├──</span>
+        <a class="site-tree-path" href="{{ "categories/" | relLangURL }}">categories/</a>
+        <span class="site-tree-meta">{{ len $categories }} dirs</span>
+      </div>
+      {{ range $index, $term := $categories }}
+        <div class="site-tree-entry site-tree-entry--category">
+          <span class="site-tree-branch">│   {{ if eq (add $index 1) (len $categories) }}└──{{ else }}├──{{ end }}</span>
+          <a class="site-tree-path" href="{{ $term.Page.RelPermalink }}">{{ $term.Page.LinkTitle }}/</a>
+        </div>
+      {{ end }}
+
+      <div class="site-tree-entry site-tree-entry--directory site-tree-entry--tags">
+        <span class="site-tree-branch">├──</span>
+        <a class="site-tree-path" href="{{ "tags/" | relLangURL }}">tags/</a>
+        <span class="site-tree-meta">{{ len $tags }} dirs</span>
+      </div>
+      {{ range $index, $term := $tags }}
+        <div class="site-tree-entry site-tree-entry--tag">
+          <span class="site-tree-branch">│   {{ if eq (add $index 1) (len $tags) }}└──{{ else }}├──{{ end }}</span>
+          <a class="site-tree-path" href="{{ $term.Page.RelPermalink }}">{{ $term.Page.LinkTitle }}/</a>
+        </div>
+      {{ end }}
+
+      {{ with $about }}
+        <div class="site-tree-entry site-tree-entry--about">
+          <span class="site-tree-branch">└──</span>
+          <a class="site-tree-path" href="{{ .RelPermalink }}">about.md</a>
+        </div>
+      {{ end }}
+    </section>
+  </article>
+{{ end }}

@@ -310,6 +310,12 @@ html.dark #appearance-switcher-mobile:focus-visible {
   color: var(--lab-violet);
 }
 
+.home-logo-dot {
+  display: inline-block;
+  transform-origin: center;
+  will-change: transform;
+}
+
 .lab-lede {
   margin: 1.82rem 0 .62rem;
   color: var(--lab-ink);
@@ -507,19 +513,131 @@ html.dark #appearance-switcher-mobile:focus-visible {
   line-height: 1.14;
 }
 
-#main-content > header h1::before {
-  content: "INDEX / ";
-  color: var(--lab-violet);
+/* Unix / Vim visual layer: quiet file context, never a terminal recreation. */
+.unix-path,
+.vim-file-context,
+.shell-error {
+  margin: 0 0 .72rem;
+  color: var(--lab-muted);
   font-family: var(--lab-mono);
-  font-size: .68rem;
-  font-weight: 600;
-  letter-spacing: .08em;
-  vertical-align: middle;
+  font-size: .67rem;
+  font-weight: 560;
+  letter-spacing: .045em;
+  line-height: 1.5;
 }
 
-body:has(.site-nav a.is-current[href="/posts/"]) #main-content > header h1::before {
-  content: "ARCHIVE / ";
+.unix-path--home { margin-top: -.65rem; margin-bottom: .65rem; }
+.unix-path--categories { color: var(--lab-orange); }
+.unix-path--tags { color: var(--lab-violet); }
+.vim-file-context { margin: 0 0 .72rem; }
+.vim-file-context span { color: var(--lab-violet); }
+
+.vim-statusline {
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr) auto auto;
+  align-items: center;
+  gap: .7rem;
+  min-width: 0;
+  margin-top: 3.2rem;
+  border-top: 1px solid var(--lab-line);
+  border-bottom: 1px solid var(--lab-line);
+  background: var(--lab-soft);
+  color: var(--lab-secondary);
+  font-family: var(--lab-mono);
+  font-size: .63rem;
+  letter-spacing: .035em;
+  line-height: 1;
 }
+
+.vim-statusline > span { min-width: 0; padding: .55rem 0; }
+.vim-status-mode { padding-inline: .68rem !important; background: var(--lab-orange-soft); color: var(--lab-orange); font-weight: 700; }
+.vim-status-file { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vim-status-meta:last-child { padding-right: .68rem; }
+.shell-error { margin-top: .85rem; margin-bottom: 0; }
+
+/* Search: display-only Unix / grep layer over the unchanged Blowfish/Fuse search. */
+.unix-search-modal {
+  max-width: 38rem;
+  border: 1px solid var(--lab-line);
+  border-radius: 15px;
+  background: color-mix(in srgb,var(--lab-paper) 94%,var(--lab-soft));
+  box-shadow: none;
+}
+.unix-search-header {
+  padding: .78rem 1rem .62rem;
+}
+.unix-search-command {
+  margin: 0;
+  padding-right: 2.4rem;
+  color: var(--lab-muted);
+  font-family: var(--lab-mono);
+  font-size: .62rem;
+  letter-spacing: .035em;
+  line-height: 1.45;
+}
+.unix-search-command span { color: var(--lab-violet); }
+
+/* Command line input */
+.unix-search-form {
+  min-height: 2.2rem;
+  margin: .5rem 0 0;
+  background: transparent;
+}
+.unix-search-prompt {
+  flex: none;
+  margin-right: .48rem;
+  color: var(--lab-violet);
+  font-family: var(--lab-mono);
+  font-size: .8rem;
+  line-height: 1;
+}
+#search-query {
+  min-width: 0;
+  height: 2.2rem;
+  padding: 0 .7rem;
+  border: 1px solid var(--lab-line);
+  border-radius: 12px;
+  background: var(--lab-paper);
+  color: var(--lab-ink);
+  font-family: inherit;
+  font-size: .8rem;
+  outline: none;
+  box-shadow: none;
+}
+#search-query::placeholder { color: var(--lab-muted); }
+#search-query:focus,
+#search-query:focus-visible {
+  border-color: var(--lab-violet);
+  outline: none;
+  box-shadow: none;
+}
+
+/* Close control */
+#close-search-button {
+  position: absolute;
+  top: .48rem;
+  right: .5rem;
+  color: var(--lab-muted);
+  background: transparent;
+  border-radius: 3px;
+}
+#close-search-button:hover { color: var(--lab-violet); }
+#close-search-button:focus-visible {
+  color: var(--lab-violet);
+  outline: 1px solid var(--lab-violet);
+  outline-offset: 2px;
+}
+
+/* Search results retain normal editorial typography; only paths are monospace. */
+#search-results > li > a { border: 1px solid transparent; border-radius: 2px !important; background: transparent !important; color: var(--lab-ink); }
+#search-results > li > a:hover { border-color: var(--lab-line); background: var(--lab-soft) !important; color: var(--lab-violet); }
+#search-results > li > a:focus-visible { border-color: var(--lab-violet); outline: 1px solid var(--lab-violet); outline-offset: -1px; background: var(--lab-soft) !important; color: var(--lab-violet); }
+.search-result-path { margin: 0 0 .22rem; color: var(--lab-muted); font-family: var(--lab-mono); font-size: .62rem; letter-spacing: .025em; line-height: 1.45; overflow-wrap: anywhere; }
+
+.article-file-meta { display: flex; flex-wrap: wrap; gap: .45rem 1rem; margin: -.1rem 0 .8rem; color: var(--lab-muted); font-family: var(--lab-mono); font-size: .61rem; letter-spacing: .045em; line-height: 1.5; }
+.article-file-meta-item { display: inline-flex; gap: .38rem; }
+.article-file-meta-label { color: var(--lab-muted); }
+.article-file-meta-value { color: var(--lab-secondary); font-weight: 650; }
 
 #single_header {
   margin-top: clamp(4rem,8vw,7rem) !important;
@@ -938,6 +1056,21 @@ input:focus-visible {
     font-size: .98rem;
     line-height: 1.95;
   }
+
+  .vim-statusline {
+    grid-template-columns: auto minmax(0,1fr) auto;
+    gap: .45rem;
+    font-size: .59rem;
+  }
+
+  .vim-status-meta:first-of-type {
+    display: none;
+  }
+
+  .article-file-meta { gap: .3rem .75rem; }
+  .unix-search-modal { max-width: 34rem; }
+  .unix-search-header { padding: .72rem .9rem .58rem; }
+  .unix-search-command { font-size: .59rem; overflow-wrap: anywhere; }
 }
 
 @media (prefers-reduced-motion:reduce) {
@@ -1096,16 +1229,6 @@ input:focus-visible {
   line-height: 1.14;
 }
 
-.taxonomy-index-header h1::before {
-  content: "INDEX / ";
-  color: var(--lab-violet);
-  font-family: var(--lab-mono);
-  font-size: .68rem;
-  font-weight: 600;
-  letter-spacing: .08em;
-  vertical-align: middle;
-}
-
 .taxonomy-index {
   display: grid;
   width: 100%;
@@ -1189,10 +1312,6 @@ body:has(.taxonomy-index--categories) .site-nav a.is-current:focus-visible {
   outline-color: var(--lab-orange);
 }
 
-body:has(.taxonomy-index--categories) #main-content > .taxonomy-index-header h1::before {
-  color: var(--lab-orange);
-}
-
 body:has(.taxonomy-index--tags) .site-nav a.is-current {
   color: var(--lab-violet) !important;
 }
@@ -1210,19 +1329,7 @@ body:has(.taxonomy-index--tags) .site-nav a.is-current:focus-visible {
   outline-color: var(--lab-violet);
 }
 
-body:has(.taxonomy-index--tags) #main-content > .taxonomy-index-header h1::before {
-  color: var(--lab-violet);
-}
-
 /* Taxonomy term pages reuse the editorial article list, not the taxonomy grid. */
-#main-content > header.taxonomy-term--categories h1::before {
-  color: var(--lab-orange);
-}
-
-#main-content > header.taxonomy-term--tags h1::before {
-  color: var(--lab-violet);
-}
-
 .taxonomy-term-list {
   max-width: 50rem;
   margin-top: clamp(2rem,4vw,3.25rem);
@@ -1264,6 +1371,58 @@ body:has(.taxonomy-index--tags) #main-content > .taxonomy-index-header h1::befor
 }
 
 /* Article refinement */
+.site-tree-page {
+  max-width: 50rem;
+  margin-top: clamp(3.5rem,7vw,6rem);
+}
+
+.site-tree-header h1 {
+  margin: 0;
+  color: var(--lab-ink);
+  font-size: clamp(2.3rem,5vw,4rem);
+  font-weight: 690;
+  letter-spacing: -.052em;
+  line-height: 1.14;
+}
+
+.site-tree {
+  margin-top: clamp(2rem,4vw,3.25rem);
+  color: var(--lab-secondary);
+  font-family: var(--lab-mono);
+  font-size: .73rem;
+  letter-spacing: .02em;
+  line-height: 1.8;
+}
+
+.site-tree-root,
+.site-tree-entry {
+  display: flex;
+  align-items: baseline;
+  min-width: 0;
+}
+
+.site-tree-root { margin-bottom: .25rem; color: var(--lab-ink); }
+.site-tree-branch { flex: none; color: var(--lab-muted); white-space: pre; }
+.site-tree-path {
+  min-width: 0;
+  color: var(--lab-ink);
+  overflow-wrap: anywhere;
+  text-decoration: none !important;
+  transition: color 180ms ease;
+}
+.site-tree-meta { margin-left: .8rem; color: var(--lab-muted); font-size: .62rem; white-space: nowrap; }
+.site-tree-entry--file .site-tree-path:hover,
+.site-tree-entry--about .site-tree-path:hover { color: var(--lab-violet); }
+.site-tree-entry--category .site-tree-path,
+.site-tree-entry--categories .site-tree-path:hover { color: var(--lab-orange); }
+.site-tree-entry--tag .site-tree-path,
+.site-tree-entry--tags .site-tree-path:hover { color: var(--lab-violet); }
+
+@media (max-width:767px) {
+  .site-tree { font-size: .67rem; line-height: 1.75; }
+  .site-tree-meta { margin-left: .5rem; font-size: .57rem; }
+}
+
 #single_header > div:first-of-type {
   margin-top: 1rem;
   margin-bottom: 1.15rem;
