@@ -896,14 +896,14 @@ input:focus-visible {
     font-size: clamp(3.5rem,19vw,5.4rem);
   }
 
-.lab-object-wrap {
-  min-height: 14rem;
-  border-top: 1px solid var(--lab-line);
-  border-left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .lab-object-wrap {
+    min-height: 19rem;
+    border-top: 1px solid var(--lab-line);
+    border-left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   .lab-object {
     width: 16rem;
@@ -915,7 +915,7 @@ input:focus-visible {
   }
 
   .latest-logs {
-    margin-top: 5rem;
+    margin-top: 0;
   }
 
   .log-entry,
